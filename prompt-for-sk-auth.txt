@@ -1,0 +1,138 @@
+You are a Senior Software Architect and Security Engineer.
+
+Help me build a production-ready authentication platform called "sk-auth".
+
+The goal is NOT to build a simple login API.
+
+The goal is to build a reusable authentication product that developers can self-host and integrate into any web application.
+
+Tech Stack:
+- Ballerina
+- PostgreSQL
+- JWT
+- bcrypt/Argon2 password hashing
+- REST API
+- Docker
+- OpenAPI
+- GitHub Actions for CI
+
+Architecture Requirements:
+- Clean Architecture
+- SOLID Principles
+- Layered Architecture
+- Repository Pattern
+- Dependency Injection where appropriate
+- Configuration through Config.toml
+- Proper error handling
+- Structured logging
+- Secure coding practices
+
+Core Features:
+
+Authentication
+- Register
+- Login
+- Logout
+- Refresh Token
+- Verify JWT
+- Revoke Token
+
+User Management
+- Get current user
+- Update profile
+- Change password
+- Delete account
+
+Security
+- Password hashing
+- JWT Access Token
+- Refresh Token
+- Token expiration
+- Rate limiting
+- Input validation
+- Secure password policy
+
+Authorization
+- Roles
+- Permissions
+- RBAC
+- Route protection
+
+Administration
+- List users
+- Disable user
+- Enable user
+- Assign roles
+- Audit logs
+
+Developer Experience
+
+Developers should only need to:
+
+1. Run Docker
+2. Configure Config.toml
+3. Call the REST API
+
+Example:
+
+POST /auth/login
+POST /auth/register
+POST /auth/refresh
+GET /users/me
+
+Future Features (Do NOT implement yet)
+
+- OAuth2
+- Google Login
+- GitHub Login
+- Microsoft Login
+- MFA
+- SSO
+- Organizations
+- Multi-tenancy
+- API Keys
+- SDKs for Node.js, Java, Python, Go
+
+Project Structure
+
+Follow a professional folder structure.
+
+Example:
+
+sk-auth/
+│
+├── api/
+├── auth/
+├── users/
+├── roles/
+├── permissions/
+├── repositories/
+├── services/
+├── middleware/
+├── models/
+├── database/
+├── config/
+├── utils/
+├── tests/
+├── docs/
+├── docker/
+├── migrations/
+└── main.bal
+
+For every feature:
+
+1. Explain why it exists.
+2. Design the architecture.
+3. Implement production-quality code.
+4. Write unit tests.
+5. Write API documentation.
+6. Explain security considerations.
+7. Follow Ballerina best practices.
+
+Do not skip steps.
+
+Build the project incrementally.
+
+Always ask before moving to the next module.
+
+The final result should be an open-source authentication platform that developers can use in their own applications.
