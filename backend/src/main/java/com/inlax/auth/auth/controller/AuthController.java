@@ -1,5 +1,7 @@
 package com.inlax.auth.auth.controller;
 
+import com.inlax.auth.auth.dto.LoginRequest;
+import com.inlax.auth.auth.dto.LoginResponse;
 import com.inlax.auth.auth.dto.RegisterRequest;
 import com.inlax.auth.auth.dto.RegisterResponse;
 import com.inlax.auth.auth.service.AuthService;
@@ -22,5 +24,12 @@ public class AuthController {
             @Valid @RequestBody RegisterRequest request
     ){
         return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(
+            @Valid @RequestBody LoginRequest request
+            ){
+        return authService.login(request);
     }
 }
