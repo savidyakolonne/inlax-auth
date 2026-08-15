@@ -7,6 +7,7 @@ import com.inlax.auth.auth.dto.RegisterResponse;
 import com.inlax.auth.common.util.UsernameGenerator;
 import com.inlax.auth.exception.EmailAlreadyExistsException;
 import com.inlax.auth.security.jwt.JwtService;
+import com.inlax.auth.user.entity.RefreshToken;
 import com.inlax.auth.user.entity.Role;
 import com.inlax.auth.user.entity.User;
 import com.inlax.auth.user.repository.UserRepository;
@@ -23,8 +24,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final UsernameGenerator usernameGenerator;
+    private final RefreshTokenService refreshTokenService;
 
     public RegisterResponse register(RegisterRequest request){
         if(userRepository.existsByEmail(request.getEmail())){
@@ -64,11 +65,37 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password");
         }
 
-        String token = jwtService.generateToken(user.getUsername());
+        String accessToken = jwtService.generateToken(user.getUsername());
+
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
         return LoginResponse.builder()
-                .accessToken(token)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
                 .tokenType("Bearer")
                 .build();
+    }
+
+    public LoginResponse refreshToken(String token){
+
+        RefreshToken refreshToken =
+                refreshTokenService.findByToken(token);
+
+        refreshTokenService.verifyExpiration(refreshToken);
+
+        User user = refreshToken.getUser();
+
+        String accessToken =
+                jwtService.generateToken(user.getUsername());
+
+        return LoginResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
+                .tokenType("Bearer")
+                .build();
+    }
+
+    public void logout(String refreshToken){
+        refreshTokenService.deleteByToken(refreshToken);
     }
 }
