@@ -40,8 +40,13 @@ public class AuthController {
     }
 
     @GetMapping("/username")
-    public String getUsername(Authentication authentication){
-        return authentication.getName();
+    public UsernameResponse getUsername(
+            Authentication authentication
+    ) {
+
+        return UsernameResponse.builder()
+                .username(authentication.getName())
+                .build();
     }
 
     @PostMapping("/logout")
