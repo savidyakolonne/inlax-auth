@@ -4,7 +4,8 @@ import com.inlax.auth.user.entity.RefreshToken;
 import com.inlax.auth.user.repository.RefreshTokenRepository;
 import com.inlax.auth.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -57,5 +58,10 @@ public class RefreshTokenService {
         }
 
         return refreshToken;
+    }
+
+    @Transactional
+    public void deleteByToken(String token){
+        refreshTokenRepository.deleteByToken(token);
     }
 }

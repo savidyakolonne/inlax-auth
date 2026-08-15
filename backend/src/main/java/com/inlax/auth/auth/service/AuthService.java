@@ -24,7 +24,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final UsernameGenerator usernameGenerator;
     private final RefreshTokenService refreshTokenService;
 
@@ -92,6 +91,11 @@ public class AuthService {
         return LoginResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken.getToken())
+                .tokenType("Bearer")
                 .build();
+    }
+
+    public void logout(String refreshToken){
+        refreshTokenService.deleteByToken(refreshToken);
     }
 }

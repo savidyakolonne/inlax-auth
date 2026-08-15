@@ -3,6 +3,7 @@ package com.inlax.auth.auth.controller;
 import com.inlax.auth.auth.dto.*;
 import com.inlax.auth.auth.service.AuthService;
 import com.inlax.auth.auth.dto.RefreshTokenRequest;
+import com.inlax.auth.auth.dto.LogoutRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -41,5 +42,12 @@ public class AuthController {
     @GetMapping("/username")
     public String getUsername(Authentication authentication){
         return authentication.getName();
+    }
+
+    @PostMapping("/logout")
+    public void logout(
+            @Valid @RequestBody LogoutRequest request
+    ){
+        authService.logout(request.getRefreshToken());
     }
 }
