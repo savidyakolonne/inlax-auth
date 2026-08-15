@@ -1,5 +1,6 @@
 package com.inlax.auth.auth.service;
 
+import com.inlax.auth.exception.RefreshTokenException;
 import com.inlax.auth.user.entity.RefreshToken;
 import com.inlax.auth.user.repository.RefreshTokenRepository;
 import com.inlax.auth.user.entity.User;
@@ -38,7 +39,7 @@ public class RefreshTokenService {
 
         return refreshTokenRepository.findByToken(token)
                 .orElseThrow(() ->
-                        new RuntimeException("Refresh token not found")
+                        new RefreshTokenException("Refresh token not found")
                 );
     }
 
@@ -54,7 +55,7 @@ public class RefreshTokenService {
 
             refreshTokenRepository.delete(refreshToken);
 
-            throw new RuntimeException("Refresh token expired");
+            throw new RefreshTokenException("Refresh token expired");
         }
 
         return refreshToken;

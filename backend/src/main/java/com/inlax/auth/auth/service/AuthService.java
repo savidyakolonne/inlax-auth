@@ -6,6 +6,7 @@ import com.inlax.auth.auth.dto.RegisterRequest;
 import com.inlax.auth.auth.dto.RegisterResponse;
 import com.inlax.auth.common.util.UsernameGenerator;
 import com.inlax.auth.exception.EmailAlreadyExistsException;
+import com.inlax.auth.exception.InvalidCredentialsException;
 import com.inlax.auth.security.jwt.JwtService;
 import com.inlax.auth.user.entity.RefreshToken;
 import com.inlax.auth.user.entity.Role;
@@ -56,13 +57,13 @@ public class AuthService {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
-                        new RuntimeException("Invalid email or password"));
+                        new InvalidCredentialsException("Invalid email or password"));
 
         if(!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPassword()
         )){
-            throw new RuntimeException("Invalid email or password");
+            throw new InvalidCredentialsException("Invalid email or password");
         }
 
         String accessToken = jwtService.generateToken(user.getUsername());
